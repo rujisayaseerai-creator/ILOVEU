@@ -302,7 +302,88 @@
       button { width: 100%; }
       .letter { max-height: 58vh; padding: 18px; font-size: 16px; }
     }
+
+    /* PDF comparison report */
+    #pdfReport {
+      position: fixed;
+      left: -99999px;
+      top: 0;
+      width: 1120px;
+      background: #fff;
+      color: #3f3037;
+      font-family: 'Kanit', sans-serif;
+      padding: 34px 38px;
+    }
+
+    .pdf-header {
+      text-align: center;
+      border-bottom: 3px solid #e95f8c;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    .pdf-header h3 {
+      font-family: 'Mali', cursive;
+      font-size: 28px;
+      color: #d84d7b;
+      margin: 0 0 6px;
+    }
+
+    .pdf-header p {
+      margin: 0;
+      font-size: 14px;
+      color: #966b7a;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 13px;
+    }
+
+    .compare-table th,
+    .compare-table td {
+      border: 1px solid #efc5d3;
+      padding: 9px 10px;
+      vertical-align: top;
+      word-break: break-word;
+      white-space: pre-wrap;
+      line-height: 1.55;
+    }
+
+    .compare-table thead th {
+      background: #ffe7ef;
+      color: #b9446b;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    .compare-table .question-cell {
+      width: 22%;
+      background: #fff7fa;
+      color: #9e4966;
+      font-weight: 500;
+    }
+
+    .compare-table .person-cell {
+      width: 39%;
+    }
+
+    .pdf-footer-note {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 12px;
+      color: #aa7f8e;
+    }
+
+    .pdf-loading {
+      opacity: .75;
+      cursor: wait;
+    }
+
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
   <main class="app">
@@ -343,6 +424,27 @@
 จิงๆชั้นก็บอกเทอด้วยนะว่าเทอก็มีส่วนที่เทอดื้ออยู่ ละเทอก้ไม่ต้องมาย้อนพูดมากับชั้นว่าในตอนนี้ชั้นอาจจะเห็นแค่ด้านน่ารักๆรึป่าว พอเราเลือกที่จะรักใครสักคนแล้วอะคุน มันต้องพร้อมรับกับทุกเรื่องที่มันจะเกิดขึ้นต่อไปจากนี้อยู่แล้วแหล่ะ แต่เรื่องนึงที่ชั้นจะขอ ที่ชั้นเคยบอกเทอว่าเราต้องรีวิวกันเสมอ ไม่ว่าจะเรื่องดีหรือไม่ดี เรื่องดีเราก็ชมกันได้ตลอดอยู่แล้ว ส่วนเรื่องไม่ดีเราก็เตือนกันเพื่อรักษากันไว้ ต่อไปนี้เราจะเป็นกระจกของกันและกันนะ ตั้งแต่มีเทอ เทอทำให้ชั้นหัดฟังคนอื่นมากขึ้น เพราะเทอนั่นแหล่ะ ที่เป็นผู้ฟังที่ดีของชั้นมาเสมอเลย เทอทำให้ชั้นรู้ว่าชั้นไม่ต้องเก่งตลอดเวลาก็ได้ แล้วชั้นก็รุ้สึกว่าการมีเทออยู่ชั้นรู้สึกปลอดภัย รู้สึกสบายใจ ทุกอย่างมันง่ายไปหมดด้วยความเต็มใจ เราไม่ได้คุยกันตลอดเวลา แต่ทุกข้อความที่ชั้นส่งให้ มันได้รับการใส่ใจทั้งหมด มันเลยทำให้ชั้นไม่เคยรู้สึกว่าชั้นอยู่คนเดียวเลย ทั้งๆที่เราไม่ได้อยู่ด้วยกัน ชั้นไม่รู้จะขอบคุณอะไรก่อน อะไรสักอย่างที่ทำให้เราได้เจอกัน หรือว่าหลักๆอาจจะต้องขอบคุณเอื้อวิทยาว้ะ5555555555555555555`;
 
     const finalText = 'เป็นแฟนกับชั้นนะอ้วน มันมีปุ่มเดียวให้อ้วนกดอ้ะ แสดงว่าไม่มีตัวเลือกอื่นให้เลือก กดไปเลย กดปุ๊บเทอจะโชคดี แบบไม่ต้องลุ้นเลยนะ อิอิ';
+
+    const myAnswers = [
+      'รุจิษยา',
+      'ก๊อกแก๊ก',
+      '0922642217',
+      '17/5/2538',
+      'ชมพู ฟ้า',
+      'จิงๆก็ชอบกินหมดนะ แต่ชอบกินของหวานมากกว่าของคาว เค้กนี่เลิ้บสุดๆ ถ้าเป็นอาหารก็ชอบทำกินเองมากกว่า เพราะนอยถ้าไปซื้อกินแล้วไม่ถูกใจ',
+      'ให้ตายเหอะ ตอนนี้นึกไม่ออก 555555 คิดว่าไม่มีมั้ง แต่มันจะฟิลแบบเลือกได้ก็ไม่กินมากกว่า',
+      'สตอเบอรี่ มะม่วงมัน/สุก มะพร้าว องุ่นไร้เมล็ด',
+      'อะไรก็ได้ที่เป็นพวงๆ สีเหลือง เปลือกหนา / น้อยหน่า / แตงไทย / แคนตาลูป / พีช น่าจะประมาณนี้',
+      'บ็อกโคลี่ / ผักบุ้ง / หัวไชเท้า / เห็ดทุกชนิด',
+      'ผักชีลาว ไม่เลิ้บสุดๆ จะร้องไห้',
+      'ถ้าของกินคิดว่าไม่มี / แพ้อากาศเวลาเปลี่ยนแปลง / แพ้หมาเด็ก อันนี้นับมั้ย อิอิ',
+      'ชอบการ์ตูนที่อยู่ใน Cartoon Network / Boomerang ละก็ไม่ได้มีของสะสมอะไรเป็นพิเศษนะ แต่ชอบของอะไรที่มันเห็นแล้ว งู้ยยยยยยยยยยยยย น่ารักกกกกกกกกกกก งี้',
+      'จิงๆดูได้หมด แต่ไม่ชอบหนังที่ดู 3 ตอนแล้วยังไม่รู้เลยอีกหรอจ้ะพี่ หรือว่าหนังที่พึ่งนักแสดงเกินไป เช่น ธี่หยด บ้าไปแล้ว 3 ภาคหรอจ้ะพี่ 555555',
+      'No.1 เลยคือภูเขา ได้ทุกรูปแบบ จะเดินป่า นอนเต็นท์ ได้หมด มันสดชื่นเด้อ',
+      'ตอนนี้เพิ่งเอาตัวเองออกจากโซเชียล เพราะรู้สึกอยากโฟกัสทุกอย่างที่อยู่ตรงหน้า อยากใช้เวลากับสิ่งที่อยู่รอบตัวมากๆ แค่อยากพักสมองจากงานที่หนักมากมาทั้งอาทิตย์ วันหยุดเลยอยากอยู่เฉยๆ กินๆ นอนๆ หรือไม่ก็ทำอะไรที่อยากทำไปเรื่อย',
+      'กับทุกอย่างที่ดูอ่อนโยน สัตว์ทั้งหมด คนรอบตัวในระยะใกล้ที่ให้ใจไปแล้ว'
+    ];
+
 
     const answers = JSON.parse(localStorage.getItem('loveAnswers') || '{}');
     const screens = document.getElementById('screens');
@@ -431,7 +533,9 @@
       const s = document.createElement('section');
       s.className = 'screen final-screen';
       s.innerHTML = `<div class="heart">💗</div><div class="final-message">${finalText}</div>`;
-      s.appendChild(button('ตกลงคับ', 'primary yes-button', showSuccess));
+      const yesButton = button('ตกลงคับ', 'primary yes-button', exportComparisonPdf);
+      yesButton.id = 'yesButton';
+      s.appendChild(yesButton);
       screens.appendChild(s);
     }
 
@@ -439,7 +543,7 @@
       const s = document.createElement('section');
       s.className = 'screen final-screen';
       s.id = 'successScreen';
-      s.innerHTML = `<div class="heart">💞</div><div class="success">เย้ๆๆๆๆๆ เราเป็นแฟนกันแล้วนะอ้วน</div>`;
+      s.innerHTML = `<div class="heart">💞</div><div class="success">เย้ๆๆๆๆๆ เราเป็นแฟนกันแล้วนะไอโอ้นนนนนน จากนี้ห้ามทำตัวน่ารักใส่คนอื่นแล้วนะ ชั้นขี้หวงนะบอกไว้ก่อนเลย</div>`;
       screens.appendChild(s);
     }
 
@@ -466,6 +570,102 @@
       } else {
         progress.style.width = `${Math.min(100, (current / totalVisibleSteps) * 100)}%`;
         counter.textContent = current === questions.length + 1 ? 'ข้อความ' : 'สุดท้าย';
+      }
+    }
+
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function buildPdfReport() {
+      const report = document.getElementById('pdfReport');
+      const respondentName = answers[1] || answers[0] || 'คนพิเศษ';
+
+      const rows = questions.map((q, index) => `
+        <tr>
+          <td class="question-cell">${escapeHtml(q.label)}</td>
+          <td class="person-cell">${escapeHtml(myAnswers[index] || '-')}</td>
+          <td class="person-cell">${escapeHtml(answers[index] || '-')}</td>
+        </tr>
+      `).join('');
+
+      report.innerHTML = `
+        <div class="pdf-header">
+          <h3>คู่มือการใช้งานคนรักเบื้องต้น</h3>
+          <p>ข้อมูลเปรียบเทียบของก๊อกแก๊กและ ${escapeHtml(respondentName)} ♡</p>
+        </div>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>หัวข้อ</th>
+              <th>ก๊อกแก๊ก</th>
+              <th>${escapeHtml(respondentName)}</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <div class="pdf-footer-note">เก็บไว้อ่านเพื่อทำความรู้จักและดูแลกันให้ดีขึ้นนะ ♡</div>
+      `;
+      return report;
+    }
+
+    async function exportComparisonPdf() {
+      const yesButton = document.getElementById('yesButton');
+
+      if (typeof html2pdf === 'undefined') {
+        alert('ไม่สามารถโหลดระบบสร้าง PDF ได้ กรุณาเชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่');
+        return;
+      }
+
+      yesButton.disabled = true;
+      yesButton.classList.add('pdf-loading');
+      yesButton.textContent = 'กำลังสร้าง PDF...';
+
+      try {
+        const report = buildPdfReport();
+        const respondentName = (answers[1] || answers[0] || 'คนพิเศษ')
+          .replace(/[\\\\/:*?"<>|]/g, '')
+          .trim();
+
+        await document.fonts.ready;
+
+        const options = {
+          margin: [7, 7, 7, 7],
+          filename: `คู่มือการใช้งานคนรักเบื้องต้น_${respondentName || 'คนพิเศษ'}.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#ffffff',
+            scrollX: 0,
+            scrollY: 0
+          },
+          jsPDF: {
+            unit: 'mm',
+            format: 'a4',
+            orientation: 'landscape'
+          },
+          pagebreak: {
+            mode: ['css', 'legacy'],
+            avoid: ['tr']
+          }
+        };
+
+        await html2pdf().set(options).from(report).save();
+        showSuccess();
+      } catch (error) {
+        console.error(error);
+        alert('สร้าง PDF ไม่สำเร็จ กรุณาลองอีกครั้ง');
+      } finally {
+        yesButton.disabled = false;
+        yesButton.classList.remove('pdf-loading');
+        yesButton.textContent = 'ตกลงคับ';
       }
     }
 
@@ -501,5 +701,6 @@
     createSuccess();
     updateProgress();
   </script>
+  <div id="pdfReport" aria-hidden="true"></div>
 </body>
 </html>
