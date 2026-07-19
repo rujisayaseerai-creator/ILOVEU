@@ -591,7 +591,7 @@
 
     function buildPdfReport() {
       const report = document.getElementById('pdfReport');
-      const respondentName = answers[1] || answers[0] || 'คนพิเศษ';
+      const respondentName = answers[1] || answers[0] || 'เก้า';
 
       const rows = questions.map((q, index) => `
         <tr>
@@ -636,7 +636,7 @@
 
       try {
         const report = buildPdfReport();
-        const respondentName = (answers[1] || answers[0] || 'คนพิเศษ')
+        const respondentName = (answers[1] || answers[0] || 'เก้า')
           .replace(/[\\\\/:*?"<>|]/g, '')
           .trim();
 
@@ -644,7 +644,7 @@
 
         const options = {
           margin: [7, 7, 7, 7],
-          filename: `คู่มือการใช้งานคนรักเบื้องต้น_${respondentName || 'คนพิเศษ'}.pdf`,
+          filename: `คู่มือการใช้งานคนรักเบื้องต้น_${respondentName || 'เก้า'}.pdf`,
           image: { type: 'jpeg', quality: 0.98 },
           html2canvas: {
             scale: 2,
