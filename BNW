@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ff8fb1" />
+  <title>มาทำความรู้จักกันนะ 💗</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Mali:wght@400;500;600&display=swap');
+
+    :root {
+      --pink: #ff8fb1;
+      --pink-dark: #e95f8c;
+      --pink-soft: #ffe7ef;
+      --cream: #fffaf5;
+      --text: #503642;
+      --white: #ffffff;
+      --shadow: 0 18px 50px rgba(220, 93, 137, .18);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: 'Kanit', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,.9) 0 5%, transparent 6%),
+        radial-gradient(circle at 90% 10%, rgba(255,255,255,.7) 0 4%, transparent 5%),
+        linear-gradient(135deg, #fff5f8, #ffe4ec 55%, #fff8f1);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: '♡';
+      position: fixed;
+      font-family: serif;
+      color: rgba(233, 95, 140, .15);
+      font-size: 180px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before { top: -40px; left: -30px; transform: rotate(-18deg); }
+    body::after { right: -20px; bottom: -70px; transform: rotate(18deg); }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: min(760px, 100%);
+      min-height: 520px;
+      background: rgba(255,255,255,.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.95);
+      border-radius: 34px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: appear .65s ease;
+    }
+
+    .topbar {
+      padding: 22px 24px 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .progress-wrap {
+      flex: 1;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--pink-soft);
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--pink), #ffb2c9);
+      border-radius: inherit;
+      transition: width .4s ease;
+    }
+
+    .counter {
+      min-width: 58px;
+      text-align: right;
+      font-size: 14px;
+      color: #a67282;
+    }
+
+    .screen {
+      flex: 1;
+      padding: 28px clamp(24px, 6vw, 58px) 40px;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      animation: slideIn .45s ease;
+    }
+
+    .screen.active { display: flex; }
+
+    .eyebrow {
+      font-size: 14px;
+      letter-spacing: .08em;
+      color: var(--pink-dark);
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    h1, h2, p { margin-top: 0; }
+
+    h1 {
+      font-family: 'Mali', cursive;
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: 1.25;
+      margin-bottom: 18px;
+      color: #d84d7b;
+    }
+
+    h2 {
+      font-family: 'Mali', cursive;
+      font-size: clamp(28px, 5vw, 42px);
+      line-height: 1.35;
+      margin-bottom: 28px;
+      color: #d84d7b;
+    }
+
+    .intro-text {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #765563;
+      margin-bottom: 34px;
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 2px solid #f6c9d7;
+      background: #fffafd;
+      color: var(--text);
+      border-radius: 18px;
+      font: inherit;
+      font-size: 18px;
+      padding: 17px 19px;
+      outline: none;
+      transition: .25s ease;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--pink);
+      box-shadow: 0 0 0 5px rgba(255,143,177,.16);
+      transform: translateY(-1px);
+    }
+
+    .hint {
+      color: #a57b89;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 25px;
+      font: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+
+    button:hover { transform: translateY(-2px); }
+    button:active { transform: translateY(0); }
+
+    .primary {
+      color: white;
+      background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+      box-shadow: 0 10px 22px rgba(233,95,140,.25);
+    }
+
+    .secondary {
+      color: #a15a75;
+      background: #fff0f5;
+    }
+
+    .letter-screen {
+      justify-content: flex-start;
+      overflow-y: auto;
+      padding-top: 20px;
+    }
+
+    .letter {
+      font-size: 17px;
+      line-height: 1.95;
+      white-space: pre-line;
+      background: #fff9fb;
+      border: 1px solid #f8d6e1;
+      padding: 24px;
+      border-radius: 22px;
+      max-height: 52vh;
+      overflow-y: auto;
+    }
+
+    .final-screen {
+      text-align: center;
+      align-items: center;
+    }
+
+    .final-message {
+      font-family: 'Mali', cursive;
+      font-size: clamp(24px, 4vw, 36px);
+      line-height: 1.65;
+      color: #d84d7b;
+      max-width: 650px;
+      margin-bottom: 30px;
+    }
+
+    .yes-button {
+      font-size: 24px;
+      padding: 18px 42px;
+      animation: pulse 1.6s infinite;
+    }
+
+    .success {
+      font-family: 'Mali', cursive;
+      font-size: clamp(32px, 6vw, 55px);
+      color: #d84d7b;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .heart {
+      font-size: 76px;
+      animation: heartbeat 1s infinite;
+      margin-bottom: 16px;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 12px;
+      height: 18px;
+      border-radius: 3px;
+      top: -30px;
+      z-index: 5;
+      pointer-events: none;
+      animation: fall linear forwards;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(18px) scale(.98); }
+      to { opacity: 1; transform: none; }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.15); }
+      40% { transform: scale(1); }
+      60% { transform: scale(1.12); }
+    }
+
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(800deg); opacity: .85; }
+    }
+
+    @media (max-width: 600px) {
+      .app { padding: 12px; }
+      .card { min-height: calc(100vh - 24px); border-radius: 26px; }
+      .topbar { padding: 18px 18px 8px; }
+      .screen { padding: 22px 22px 30px; }
+      .actions { flex-direction: column-reverse; }
+      button { width: 100%; }
+      .letter { max-height: 58vh; padding: 18px; font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="card">
+      <div class="topbar">
+        <div class="progress-wrap"><div class="progress" id="progress"></div></div>
+        <div class="counter" id="counter">เริ่มต้น</div>
+      </div>
+      <div id="screens"></div>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+      { label: 'ชื่อจริง', type: 'text', placeholder: 'พิมพ์ชื่อจริงของเธอ...' },
+      { label: 'ชื่อเล่น', type: 'text', placeholder: 'ชื่อที่อยากให้เราเรียก...' },
+      { label: 'เบอร์โทร', type: 'tel', placeholder: 'เช่น 08x-xxx-xxxx' },
+      { label: 'วันเดือนปีเกิด', type: 'date', placeholder: '' },
+      { label: 'สีที่ชอบ', type: 'text', placeholder: 'สีอะไรที่เห็นแล้วรู้สึกดี...' },
+      { label: 'อาหารที่ชอบ', type: 'text', placeholder: 'เมนูโปรดของเธอ...' },
+      { label: 'อาหารที่ไม่ชอบ', type: 'text', placeholder: 'เมนูที่ไม่ค่อยถูกใจ...' },
+      { label: 'ผลไม้ที่ชอบ', type: 'text', placeholder: 'ผลไม้โปรด...' },
+      { label: 'ผลไม้ที่ไม่ชอบ', type: 'text', placeholder: 'ผลไม้ที่ไม่ค่อยชอบ...' },
+      { label: 'ผักที่ชอบ', type: 'text', placeholder: 'ผักที่กินได้แบบสบาย ๆ...' },
+      { label: 'ผักที่ไม่ชอบ', type: 'text', placeholder: 'ผักที่อย่าเผลอใส่มานะ...' },
+      { label: 'แพ้อะไรบ้างมั้ย', type: 'textarea', placeholder: 'อาหาร ยา หรือสิ่งอื่น ๆ ที่แพ้...' },
+      { label: 'การ์ตูนหรือตัวละครโปรด', type: 'text', placeholder: 'ตัวละครที่ชอบที่สุด...' },
+      { label: 'ชอบดูหนังแนวไหน', type: 'text', placeholder: 'โรแมนติก ตลก แอ็กชัน สยองขวัญ หรือแนวอื่น...' },
+      { label: 'ชอบเที่ยวแบบไหน', type: 'textarea', placeholder: 'ทะเล ภูเขา คาเฟ่ ลุย ๆ หรือชิล ๆ...' },
+      { label: 'ชอบใช้เวลาไปกับอะไร', type: 'textarea', placeholder: 'กิจกรรมที่ทำแล้วมีความสุข...' },
+      { label: 'อารมณ์อ่อนไหวกับอะไรที่สุด', type: 'textarea', placeholder: 'เล่าให้เรารู้จักหัวใจของเธอเพิ่มอีกนิดนะ...' }
+    ];
+
+    const letterText = `คำถามทั้งหมดที่ถามไป มันเป็นข้อมูลพื้นฐานที่ชั้นอยากจะรู้ เพื่อทำความรู้จักเธอให้มากขึ้น แต่ต่อไปจากนี้ชั้นจะทำความรู้จักเทอ จากการที่เราใช้เวลาด้วยกันในทุก ๆ วัน ไม่ว่าจะมีเรื่องดีหรือไม่ดีของกันและกันในแต่ละวัน เราต้องเล่าให้กันฟังนะ อีกคนนึงจะได้ไม่ต้องรู้สึกว่าต้องแบกอะไรไว้คนเดียว แล้วช่วงที่เราไม่ได้อยู่ด้วยกัน เราทั้งคู่จะดูแลตัวเองเป็นอย่างดีเพื่อรอเวลาที่เราจะได้เจอกัน
+
+ชั้นจะตั้งใจรักเทออย่างดี ชั้นพูดมาเสมอว่าเทอน่ารัก จนชั้นก็คิดว่าเทอโตมายังไงวะ ทำไมน่ารักได้ขนาดนี้ มันเลยทำให้ชั้นคิดว่าขอให้เป็นชั้นนะที่จะได้รักเทอ ชั้นจะทำให้เทอรู้ว่าเทอโชคดีมาก ๆ เลยที่มีชั้นเป็นแฟน
+
+จริง ๆ ชั้นก็บอกเทอด้วยนะว่าเทอก็มีส่วนที่เทอดื้ออยู่ และเทอก็ไม่ต้องมาย้อนพูดกับชั้นว่าในตอนนี้ชั้นอาจจะเห็นแค่ด้านน่ารัก ๆ รึเปล่า พอเราเลือกที่จะรักใครสักคนแล้วอะคุณ มันต้องพร้อมรับกับทุกเรื่องที่จะเกิดขึ้นต่อไปจากนี้อยู่แล้วแหละ แต่เรื่องนึงที่ชั้นจะขอ ที่ชั้นเคยบอกเทอว่าเราต้องรีวิวกันเสมอ ไม่ว่าจะเรื่องดีหรือไม่ดี เรื่องดีเราก็ชมกันได้ตลอดอยู่แล้ว ส่วนเรื่องไม่ดีเราก็เตือนกันเพื่อรักษากันไว้ ต่อไปนี้เราจะเป็นกระจกของกันและกันนะ
+
+ตั้งแต่มีเทอ เทอทำให้ชั้นหัดฟังคนอื่นมากขึ้น เพราะเทอนั่นแหละที่เป็นผู้ฟังที่ดีของชั้นมาเสมอเลย เทอทำให้ชั้นรู้ว่าชั้นไม่ต้องเก่งตลอดเวลาก็ได้ แล้วชั้นก็รู้สึกว่าการมีเทออยู่ ชั้นรู้สึกปลอดภัย รู้สึกสบายใจ ชั้นสามารถขอคำปรึกษาเทอได้ เทอมีมุมมองของเทอที่ทำให้ชั้น คนที่ไม่ค่อยฟังใครอย่างชั้น ก็หยุดคิดว่าที่เทอพูดมันก็จริงนะ`;
+
+    const finalText = 'เป็นแฟนกับชั้นนะอ้วน มันมีปุ่มเดียวให้อ้วนกดอ้ะ แสดงว่าไม่มีตัวเลือกอื่นให้เลือก กดไปเลย กดปุ๊บเทอจะโชคดี แบบไม่ต้องลุ้นเลยนะ อิอิ';
+
+    const answers = JSON.parse(localStorage.getItem('loveAnswers') || '{}');
+    const screens = document.getElementById('screens');
+    const progress = document.getElementById('progress');
+    const counter = document.getElementById('counter');
+    let current = 0;
+
+    function button(label, className, handler) {
+      const b = document.createElement('button');
+      b.textContent = label;
+      b.className = className;
+      b.addEventListener('click', handler);
+      return b;
+    }
+
+    function createIntro() {
+      const s = document.createElement('section');
+      s.className = 'screen active';
+      s.innerHTML = `
+        <div class="eyebrow">A LITTLE STORY ABOUT US ♡</div>
+        <h1>มาทำความรู้จักกันให้มากขึ้นนะ</h1>
+        <p class="intro-text">มีคำถามเล็ก ๆ ที่ชั้นอยากรู้เกี่ยวกับเทอ ตอบทีละข้อนะ ไม่มีคำตอบไหนผิดเลย เพราะทุกคำตอบคือสิ่งที่ทำให้ชั้นรู้จักเทอมากขึ้น 💗</p>
+      `;
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      actions.appendChild(button('เริ่มตอบคำถาม', 'primary', () => goTo(1)));
+      s.appendChild(actions);
+      screens.appendChild(s);
+    }
+
+    function createQuestion(q, index) {
+      const s = document.createElement('section');
+      s.className = 'screen';
+      s.dataset.index = index + 1;
+
+      const label = document.createElement('div');
+      label.className = 'eyebrow';
+      label.textContent = `คำถามที่ ${index + 1}`;
+      const title = document.createElement('h2');
+      title.textContent = q.label;
+
+      let field;
+      if (q.type === 'textarea') {
+        field = document.createElement('textarea');
+      } else {
+        field = document.createElement('input');
+        field.type = q.type;
+      }
+      field.placeholder = q.placeholder;
+      field.value = answers[index] || '';
+      field.autocomplete = 'off';
+      field.addEventListener('input', () => {
+        answers[index] = field.value;
+        localStorage.setItem('loveAnswers', JSON.stringify(answers));
+      });
+      field.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && q.type !== 'textarea') goTo(current + 1);
+      });
+
+      const hint = document.createElement('div');
+      hint.className = 'hint';
+      hint.textContent = 'ตอบตามที่เป็นตัวเองได้เลยนะ';
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      actions.appendChild(button('ย้อนกลับ', 'secondary', () => goTo(current - 1)));
+      actions.appendChild(button(index === questions.length - 1 ? 'อ่านข้อความต่อไป' : 'ข้อต่อไป', 'primary', () => goTo(current + 1)));
+
+      s.append(label, title, field, hint, actions);
+      screens.appendChild(s);
+    }
+
+    function createLetter() {
+      const s = document.createElement('section');
+      s.className = 'screen letter-screen';
+      s.innerHTML = `<div class="eyebrow">อยากบอกเทอว่า...</div><h2>ก่อนจะไปหน้าสุดท้าย ♡</h2><div class="letter">${letterText}</div>`;
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      actions.appendChild(button('ย้อนกลับ', 'secondary', () => goTo(current - 1)));
+      actions.appendChild(button('ไปหน้าสุดท้าย', 'primary', () => goTo(current + 1)));
+      s.appendChild(actions);
+      screens.appendChild(s);
+    }
+
+    function createFinal() {
+      const s = document.createElement('section');
+      s.className = 'screen final-screen';
+      s.innerHTML = `<div class="heart">💗</div><div class="final-message">${finalText}</div>`;
+      s.appendChild(button('ตกลงคับ', 'primary yes-button', showSuccess));
+      screens.appendChild(s);
+    }
+
+    function createSuccess() {
+      const s = document.createElement('section');
+      s.className = 'screen final-screen';
+      s.id = 'successScreen';
+      s.innerHTML = `<div class="heart">💞</div><div class="success">เย้ๆๆๆๆๆ เราเป็นแฟนกันแล้วนะอ้วน</div>`;
+      screens.appendChild(s);
+    }
+
+    function goTo(index) {
+      const all = [...document.querySelectorAll('.screen')];
+      if (index < 0 || index >= all.length - 1) return;
+      all[current].classList.remove('active');
+      current = index;
+      all[current].classList.add('active');
+      updateProgress();
+      const field = all[current].querySelector('input, textarea');
+      if (field) setTimeout(() => field.focus(), 250);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateProgress() {
+      const totalVisibleSteps = questions.length + 2;
+      if (current === 0) {
+        progress.style.width = '0%';
+        counter.textContent = 'เริ่มต้น';
+      } else if (current <= questions.length) {
+        progress.style.width = `${(current / totalVisibleSteps) * 100}%`;
+        counter.textContent = `${current}/${questions.length}`;
+      } else {
+        progress.style.width = `${Math.min(100, (current / totalVisibleSteps) * 100)}%`;
+        counter.textContent = current === questions.length + 1 ? 'ข้อความ' : 'สุดท้าย';
+      }
+    }
+
+    function showSuccess() {
+      const all = [...document.querySelectorAll('.screen')];
+      all[current].classList.remove('active');
+      current = all.length - 1;
+      all[current].classList.add('active');
+      progress.style.width = '100%';
+      counter.textContent = 'สำเร็จ ♡';
+      launchConfetti();
+    }
+
+    function launchConfetti() {
+      const colors = ['#ff8fb1', '#ffc3d5', '#f6c453', '#9bd7d5', '#b7a7f2'];
+      for (let i = 0; i < 90; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.animationDuration = (2.2 + Math.random() * 2.7) + 's';
+        c.style.animationDelay = (Math.random() * .8) + 's';
+        c.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 6000);
+      }
+    }
+
+    createIntro();
+    questions.forEach(createQuestion);
+    createLetter();
+    createFinal();
+    createSuccess();
+    updateProgress();
+  </script>
+</body>
+</html>
